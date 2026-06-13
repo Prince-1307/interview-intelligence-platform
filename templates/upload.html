@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="mb-4">
+
+    Upload Resume
+
+</h1>
+
+<form
+    method="POST"
+    enctype="multipart/form-data"
+>
+
+    <input
+        type="file"
+        name="resume"
+        class="form-control"
+        accept=".pdf,.docx"
+        required
+    >
+
+    <button
+        class="btn btn-primary mt-3"
+        type="submit"
+    >
+        Upload Resume
+    </button>
+
+</form>
+
+{% if success %}
+
+<div class="alert alert-success mt-4">
+
+    Resume uploaded successfully.
+
+</div>
+
+{% endif %}
+
+{% if error %}
+
+<div class="alert alert-danger mt-4">
+
+    {{ error }}
+
+</div>
+
+{% endif %}
+
+{% endblock %}
