@@ -7,15 +7,15 @@ Home Page
 Upload Resume
 ↓
 Paste Job Description
-    ↓
+↓
 Generate Questions
-    ↓
+↓
 Answer Questions
-    ↓
+↓
 AI Evaluation
-    ↓
+↓
 Feedback Report
-    ↓
+↓
 Dashboard
 
 ---
