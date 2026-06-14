@@ -8,6 +8,8 @@ from models.resume_parser import (extract_resume_text)
 
 from models.text_cleaner import (clean_resume_text)
 
+from models.skill_extractor import (load_skills,extract_skills)
+
 upload_bp = Blueprint("upload", __name__)
 
 
@@ -28,12 +30,9 @@ def allowed_file(filename):
     )
 
 
-@upload_bp.route(
-    "/upload",
-    methods=["GET", "POST"]
-)
+@upload_bp.route("/upload",methods=["GET", "POST"])
 def upload_resume():
-
+    detected_skills = []
     success = False
     error = None
     resume_text = None
@@ -90,6 +89,10 @@ def upload_resume():
 
                 resume_text = clean_resume_text(resume_text)
 
+                skills_db = load_skills("data/skills.txt")
+
+                detected_skills = extract_skills(resume_text,skills_db)
+
                 success = True
 
             except Exception as e:
@@ -99,8 +102,9 @@ def upload_resume():
                 )
 
     return render_template(
-        "upload.html",
-        success=success,
-        error=error,
-        resume_text=resume_text
-    )
+    "upload.html",
+    success=success,
+    error=error,
+    resume_text=resume_text,
+    detected_skills=detected_skills
+)
