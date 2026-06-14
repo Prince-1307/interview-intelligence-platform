@@ -28,7 +28,8 @@ def structure_resume(text):
 
         upper_line = clean_line.upper()
 
-        if upper_line in SECTION_HEADERS:
+        if any(header in upper_line
+            for header in SECTION_HEADERS):
 
             current_section = upper_line.lower()
 

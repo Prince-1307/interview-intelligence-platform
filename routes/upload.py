@@ -2,12 +2,11 @@ from flask import (Blueprint, render_template, request)
 
 import os
 
-from config import ( UPLOAD_FOLDER, ALLOWED_EXTENSIONS
-)
+from config import ( UPLOAD_FOLDER, ALLOWED_EXTENSIONS)
 
-from models.resume_parser import (
-    extract_resume_text
-)
+from models.resume_parser import (extract_resume_text)
+
+from models.text_cleaner import (clean_resume_text)
 
 upload_bp = Blueprint("upload", __name__)
 
@@ -87,11 +86,9 @@ def upload_resume():
 
             try:
 
-                resume_text = (
-                    extract_resume_text(
-                        save_path
-                    )
-                )
+                resume_text = extract_resume_text(save_path)
+
+                resume_text = clean_resume_text(resume_text)
 
                 success = True
 
