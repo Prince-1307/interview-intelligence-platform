@@ -1,0 +1,80 @@
+{
+  "java": {
+    "easy": [
+      "What is Java?",
+      "What are the main features of Java?"
+    ],
+    "medium": [
+      "Explain JVM architecture.",
+      "What is the difference between JDK, JRE and JVM?"
+    ],
+    "hard": [
+      "Explain Java Memory Model.",
+      "What is Garbage Collection in Java?"
+    ]
+  },
+
+  "spring": {
+    "easy": [
+      "What is Spring Framework?"
+    ],
+    "medium": [
+      "Explain Dependency Injection.",
+      "Difference between Spring and Spring Boot?"
+    ],
+    "hard": [
+      "Explain Bean Lifecycle in Spring."
+    ]
+  },
+
+  "hibernate": {
+    "easy": [
+      "What is Hibernate?"
+    ],
+    "medium": [
+      "What is ORM?",
+      "Explain SessionFactory."
+    ],
+    "hard": [
+      "Difference between save() and persist()?"
+    ]
+  },
+
+  "aws": {
+    "easy": [
+      "What is AWS?"
+    ],
+    "medium": [
+      "Explain EC2 and S3.",
+      "Which AWS services have you used?"
+    ],
+    "hard": [
+      "How would you secure AWS resources?"
+    ]
+  },
+
+  "sql": {
+    "easy": [
+      "What is SQL?"
+    ],
+    "medium": [
+      "Explain normalization.",
+      "What are joins?"
+    ],
+    "hard": [
+      "How do you optimize slow SQL queries?"
+    ]
+  },
+
+  "nosql": {
+    "easy": [
+      "What is NoSQL?"
+    ],
+    "medium": [
+      "Difference between SQL and NoSQL?"
+    ],
+    "hard": [
+      "When would you choose NoSQL over SQL?"
+    ]
+  }
+}

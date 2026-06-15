@@ -1,0 +1,40 @@
+python
+java
+java 8
+spring
+spring boot
+hibernate
+aws
+azure
+gcp
+sql
+mysql
+postgresql
+mongodb
+nosql
+git
+github
+docker
+kubernetes
+rest api
+restful api
+restful apis
+flask
+django
+tensorflow
+pytorch
+scikit-learn
+machine learning
+deep learning
+nlp
+pandas
+numpy
+plotly
+streamlit
+linux
+agile
+oop
+microservices
+maven
+gradle
+junit

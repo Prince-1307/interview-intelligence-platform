@@ -1,21 +1,41 @@
-from flask import (Blueprint, render_template, request)
+from flask import (
+    Blueprint,
+    render_template,
+    request
+)
 
 import os
 
-from config import ( UPLOAD_FOLDER, ALLOWED_EXTENSIONS)
+from config import (
+    UPLOAD_FOLDER,
+    ALLOWED_EXTENSIONS
+)
 
-from models.resume_parser import (extract_resume_text)
+from models.resume_parser import (
+    extract_resume_text
+)
 
-from models.text_cleaner import (clean_resume_text)
+from models.text_cleaner import (
+    clean_resume_text
+)
 
-upload_bp = Blueprint("upload", __name__)
+from models.skill_extractor import (
+    load_skills,
+    extract_skills
+)
+
+from models.question_generator import (
+    load_question_bank,
+    generate_questions
+)
+
+upload_bp = Blueprint(
+    "upload",
+    __name__
+)
 
 
 def allowed_file(filename):
-    """
-    Check whether uploaded file
-    has a valid extension.
-    """
 
     return (
         "." in filename
@@ -35,8 +55,14 @@ def allowed_file(filename):
 def upload_resume():
 
     success = False
+
     error = None
+
     resume_text = None
+
+    detected_skills = []
+
+    generated_questions = []
 
     if request.method == "POST":
 
@@ -44,17 +70,17 @@ def upload_resume():
             "resume"
         )
 
-        # --------------------------
+        # -----------------------
         # No file selected
-        # --------------------------
+        # -----------------------
 
         if not file or file.filename == "":
 
             error = "Please select a file."
 
-        # --------------------------
+        # -----------------------
         # Invalid file type
-        # --------------------------
+        # -----------------------
 
         elif not allowed_file(
             file.filename
@@ -64,9 +90,9 @@ def upload_resume():
                 "Only PDF and DOCX files are allowed."
             )
 
-        # --------------------------
+        # -----------------------
         # Valid file
-        # --------------------------
+        # -----------------------
 
         else:
 
@@ -86,9 +112,48 @@ def upload_resume():
 
             try:
 
-                resume_text = extract_resume_text(save_path)
+                # -----------------------
+                # Resume Parsing
+                # -----------------------
 
-                resume_text = clean_resume_text(resume_text)
+                resume_text = extract_resume_text(
+                    save_path
+                )
+
+                # -----------------------
+                # Text Cleaning
+                # -----------------------
+
+                resume_text = clean_resume_text(
+                    resume_text
+                )
+
+                # -----------------------
+                # Skill Extraction
+                # -----------------------
+
+                skills_db = load_skills(
+                    "data/skills.txt"
+                )
+
+                detected_skills = extract_skills(
+                    resume_text,
+                    skills_db
+                )
+
+                # -----------------------
+                # Question Generation
+                # -----------------------
+
+                question_bank = load_question_bank(
+                    "data/question_bank.json"
+                )
+
+                generated_questions = generate_questions(
+                    detected_skills,
+                    question_bank,
+                    difficulty="medium"
+                )
 
                 success = True
 
@@ -100,7 +165,14 @@ def upload_resume():
 
     return render_template(
         "upload.html",
+
         success=success,
+
         error=error,
-        resume_text=resume_text
+
+        resume_text=resume_text,
+
+        detected_skills=detected_skills,
+
+        generated_questions=generated_questions
     )
