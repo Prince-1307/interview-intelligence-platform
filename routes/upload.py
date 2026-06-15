@@ -8,6 +8,11 @@ from models.resume_parser import (extract_resume_text)
 
 from models.text_cleaner import (clean_resume_text)
 
+from models.skill_extractor import (load_skills,extract_skills)
+
+from models.question_generator import (load_question_bank,generate_questions)
+
+
 upload_bp = Blueprint("upload", __name__)
 
 
@@ -37,7 +42,9 @@ def upload_resume():
     success = False
     error = None
     resume_text = None
-
+    detected_skills = []
+    generated_questions = []
+    
     if request.method == "POST":
 
         file = request.files.get(
@@ -86,9 +93,40 @@ def upload_resume():
 
             try:
 
-                resume_text = extract_resume_text(save_path)
+                resume_text = extract_resume_text(
+                    save_path
+                )
 
-                resume_text = clean_resume_text(resume_text)
+                resume_text = clean_resume_text(
+                    resume_text
+                )
+
+                # ---------------------
+                # Skill Extraction
+                # ---------------------
+
+                skills_db = load_skills(
+                    "data/skills.txt"
+                )
+
+                detected_skills = extract_skills(
+                    resume_text,
+                    skills_db
+                )
+
+                # ---------------------
+                # Question Generation
+                # ---------------------
+
+                question_bank = load_question_bank(
+                    "data/question_bank.json"
+                )
+
+                generated_questions = generate_questions(
+                    detected_skills,
+                    question_bank,
+                    difficulty="medium"
+                )
 
                 success = True
 
@@ -102,5 +140,7 @@ def upload_resume():
         "upload.html",
         success=success,
         error=error,
-        resume_text=resume_text
+        resume_text=resume_text,
+        detected_skills=detected_skills,
+        generated_questions=generated_questions
     )
